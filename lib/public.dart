@@ -51,6 +51,6 @@ void register(Router app, DbCollection users, DbCollection usersSessions) {
       'sessionToken': userSession['sessionToken']
     });
 
-    return Response.ok({'session': encodedSession}, headers: {'content-type': 'application/json'});
+    return Response.ok("{'session': encodedSession}", headers: {'content-type': 'application/json'});
   });
 }
