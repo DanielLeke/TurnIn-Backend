@@ -4,13 +4,14 @@ import 'package:mongo_dart/mongo_dart.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
 import 'package:shelf_router/shelf_router.dart';
+import 'package:turnin_backend/public.dart';
 
 // Configure routes.
 final _router = Router();
 
 void main(List<String> args) async {
   var env = DotEnv(includePlatformEnvironment: true)
-    ..load('C:\\Users\\USER\\turnin_backend\\.env' as Iterable<String>);
+    ..load(['C:\\Users\\USER\\turnin_backend\\.env']);
 
   var dbString = env['TurnInDB'];
   Db db = Db(dbString as String);
@@ -21,6 +22,8 @@ void main(List<String> args) async {
   DbCollection users = DbCollection(db, 'users');
   DbCollection usersSessions = DbCollection(db, 'usersSessions');
   DbCollection submissions = DbCollection(db, 'sessions');
+
+  register(_router, users, usersSessions);
 
   // Use any available host or container IP (usually `0.0.0.0`).
   final ip = InternetAddress.anyIPv4;
