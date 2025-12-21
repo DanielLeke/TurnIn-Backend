@@ -43,12 +43,13 @@ void register(Router app, DbCollection users, DbCollection usersSessions) {
       'role': userDocument['role'],
     });
 
-    var userSession = {'username': username, 'sessionToken': Uuid().v4()};
+    var userSession = {'username': username, 'sessionToken': Uuid().v4(), 'role': role};
     var encodedSession = base64.encode(utf8.encode(json.encode(userSession)));
 
     await usersSessions.insertOne({
       'username': userSession['username'],
-      'sessionToken': userSession['sessionToken']
+      'sessionToken': userSession['sessionToken'],
+      'role': userSession['role']
     });
 
     return Response.ok("{'session': $encodedSession}", headers: {'content-type': 'application/json'});
