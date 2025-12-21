@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:crypto/crypto.dart';
 import 'package:mongo_dart/mongo_dart.dart';
@@ -21,6 +22,12 @@ void register(Router app, DbCollection users, DbCollection usersSessions) {
     var username = data['username'];
     var password = data['password'];
     var role = data['role'];
+
+    var rand = Random();
+    var saltBytes = List<int>.generate(32, (_) => rand.nextInt(256));
+    var salt = base64.encode(saltBytes);
+
+    var hashedPassword = _hashPassword(password, salt);
 
     var document = {};
     return Response.ok('User registered');
