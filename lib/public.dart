@@ -8,5 +8,6 @@ void register(Router app, DbCollection users, DbCollection usersSessions) {
   app.post('/register', (Request request) async {
     final data = jsonDecode(await request.readAsString());
     print(data);
+    return Response.ok('User registered');
   });
 }
