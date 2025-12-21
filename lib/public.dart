@@ -29,7 +29,18 @@ void register(Router app, DbCollection users, DbCollection usersSessions) {
 
     var hashedPassword = _hashPassword(password, salt);
 
-    var document = {};
+    var document = {
+      'username': username,
+      'hashedPassword': hashedPassword,
+      'salt': salt,
+      'role': role,
+    };
+    await users.insertOne({
+      'username': document['username'],
+      'hashedPassword': document['hashedPassword'],
+      'salt': document['salt'],
+      'role': document['role'],
+    });
     return Response.ok('User registered');
   });
 }
