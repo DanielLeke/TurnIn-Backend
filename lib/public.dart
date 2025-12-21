@@ -5,6 +5,7 @@ import 'package:crypto/crypto.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
+import 'package:uuid/uuid.dart';
 
 String _hashPassword(String password, String salt) {
   var key = utf8.encode(password);
@@ -29,18 +30,27 @@ void register(Router app, DbCollection users, DbCollection usersSessions) {
 
     var hashedPassword = _hashPassword(password, salt);
 
-    var document = {
+    var userDocument = {
       'username': username,
       'hashedPassword': hashedPassword,
       'salt': salt,
       'role': role,
     };
     await users.insertOne({
-      'username': document['username'],
-      'hashedPassword': document['hashedPassword'],
-      'salt': document['salt'],
-      'role': document['role'],
+      'username': userDocument['username'],
+      'hashedPassword': userDocument['hashedPassword'],
+      'salt': userDocument['salt'],
+      'role': userDocument['role'],
     });
-    return Response.ok('User registered');
+
+    var userSession = {'username': username, 'sessionToken': Uuid().v4()};
+    var encodedSession = base64.encode(utf8.encode(json.encode(userSession)));
+
+    await usersSessions.insertOne({
+      'username': userSession['username'],
+      'sessionToken': userSession['sessionToken']
+    });
+
+    return Response.ok(encodedSession, headers: {'content-type': 'application/json'});
   });
 }
