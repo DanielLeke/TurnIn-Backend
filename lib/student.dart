@@ -11,5 +11,15 @@ void submit(Router app, DbCollection usersSessions, DbCollection submissions) {
     final submission = data['submission'];
 
     final decodedSession = json.decode(utf8.decode(base64.decode(session)));
+    final username = decodedSession['username'];
+    final sessionToken = decodedSession['sessionToken'];
+    final role = decodedSession['role'];
+
+    var userSession = await usersSessions.findOne(
+      where
+          .eq('username', username)
+          .eq('sessionToken', sessionToken)
+          .eq('role', role),
+    );
   });
 }
