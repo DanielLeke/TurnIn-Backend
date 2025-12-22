@@ -22,7 +22,7 @@ void main(List<String> args) async {
 
   DbCollection users = DbCollection(db, 'users');
   DbCollection usersSessions = DbCollection(db, 'usersSessions');
-  DbCollection submissions = DbCollection(db, 'sessions');
+  DbCollection submissions = DbCollection(db, 'submissions');
 
   register(_router, users, usersSessions);
   login(_router, users, usersSessions);
