@@ -27,6 +27,7 @@ void main(List<String> args) async {
   register(_router, users, usersSessions);
   login(_router, users, usersSessions);
   submit(_router, usersSessions, submissions);
+  getUserSubmission(_router, usersSessions, submissions);
 
   // Use any available host or container IP (usually `0.0.0.0`).
   final ip = InternetAddress.anyIPv4;
