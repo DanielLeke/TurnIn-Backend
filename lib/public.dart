@@ -64,5 +64,20 @@ void register(Router app, DbCollection users, DbCollection usersSessions) {
 }
 
 void login(Router app, DbCollection users, DbCollection usersSessions) {
-  app.post('/login', (Request request) async {});
+  app.post('/login', (Request request) async {
+    final data = jsonDecode(await request.readAsString());
+    var username = data['username'];
+    var password = data['password'];
+    var role = data['role'];
+
+    var user = await users.findOne(where.eq('username', username));
+    if (user == null) {
+      return Response.notFound(
+        'User not found',
+        headers: {'content-type': 'application/json'},
+      );
+    }
+    var salt = user['salt'];
+    var hashedPassword = user['hashedPassword'];
+  });
 }
