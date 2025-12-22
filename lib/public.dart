@@ -70,7 +70,9 @@ void login(Router app, DbCollection users, DbCollection usersSessions) {
     var password = data['password'];
     var role = data['role'];
 
-    var user = await users.findOne(where.eq('username', username).eq('role', role));
+    var user = await users.findOne(
+      where.eq('username', username).eq('role', role),
+    );
     if (user == null) {
       return Response.notFound(
         'User not found',
@@ -83,6 +85,24 @@ void login(Router app, DbCollection users, DbCollection usersSessions) {
     if (hashedPassword != givenHashedPassword) {
       return Response.forbidden(
         'Incorrect username/password',
+        headers: {'content-type': 'application/json'},
+      );
+    } else {
+      var userSession = {
+        'username': username,
+        'sessionToken': Uuid().v4(),
+        'role': role,
+      };
+      var encodedSession = base64.encode(utf8.encode(json.encode(userSession)));
+
+      await usersSessions.insertOne({
+        'username': userSession['username'],
+        'sessionToken': userSession['sessionToken'],
+        'role': userSession['role'],
+      });
+
+      return Response.ok(
+        "{'session': $encodedSession}",
         headers: {'content-type': 'application/json'},
       );
     }
