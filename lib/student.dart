@@ -10,6 +10,13 @@ void submit(Router app, DbCollection usersSessions, DbCollection submissions) {
     final session = data['session'];
     final submission = data['submission'];
 
+    if (session == null) {
+      return Response.forbidden(
+        'No session provided',
+        headers: {'content-type': 'application/json'},
+      );
+    }
+
     final decodedSession = json.decode(utf8.decode(base64.decode(session)));
     final username = decodedSession['username'];
     final sessionToken = decodedSession['sessionToken'];
