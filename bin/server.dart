@@ -24,6 +24,7 @@ void main(List<String> args) async {
   DbCollection submissions = DbCollection(db, 'sessions');
 
   register(_router, users, usersSessions);
+  login(_router, users, usersSessions);
 
   // Use any available host or container IP (usually `0.0.0.0`).
   final ip = InternetAddress.anyIPv4;
