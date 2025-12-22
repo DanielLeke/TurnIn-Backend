@@ -21,5 +21,29 @@ void submit(Router app, DbCollection usersSessions, DbCollection submissions) {
           .eq('sessionToken', sessionToken)
           .eq('role', role),
     );
+
+    if (userSession == null) {
+      return Response.forbidden(
+        'Unauthorized user',
+        headers: {'content-type': 'application/json'},
+      );
+    } else {
+      var userSubmission = {
+        'username': username,
+        'role': role,
+        'submission': submission,
+      };
+
+      await usersSessions.insertOne({
+        'username': userSubmission['username'],
+        'role': userSubmission['role'],
+        'submission': userSubmission['submission'],
+      });
+
+      return Response.ok(
+        'Submission saved',
+        headers: {'content-type': 'application/json'},
+      );
+    }
   });
 }
