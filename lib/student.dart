@@ -39,12 +39,14 @@ void submit(Router app, DbCollection usersSessions, DbCollection submissions) {
         'username': username,
         'role': role,
         'submission': submission,
+        'status': 'Unreviewed'
       };
 
       await submissions.insertOne({
         'username': userSubmission['username'],
         'role': userSubmission['role'],
         'submission': userSubmission['submission'],
+        'status': userSubmission['status']
       });
 
       return Response.ok(
