@@ -79,5 +79,12 @@ void login(Router app, DbCollection users, DbCollection usersSessions) {
     }
     var salt = user['salt'];
     var hashedPassword = user['hashedPassword'];
+    var givenHashedPassword = _hashPassword(password, salt);
+    if (hashedPassword != givenHashedPassword) {
+      return Response.forbidden(
+        'Incorrect username/password',
+        headers: {'content-type': 'application/json'},
+      );
+    }
   });
 }
