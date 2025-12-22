@@ -54,3 +54,11 @@ void submit(Router app, DbCollection usersSessions, DbCollection submissions) {
     }
   });
 }
+
+void getUserSubmission(
+  Router app,
+  DbCollection usersSessions,
+  DbCollection submissions,
+) {
+  app.get('/submissions', (Request request) async {});
+}
