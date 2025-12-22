@@ -89,11 +89,11 @@ void getUserSubmission(
         headers: {'content-type': 'application/json'},
       );
     } else {
-      var userSubmissions = submissions.find(
+      var userSubmissions = await submissions.find(
         where.eq('username', username).eq('role', role),
-      );
+      ).toList();
       return Response.ok(
-        userSubmissions,
+        jsonEncode(userSubmissions),
         headers: {'content-type': 'application/json'},
       );
     }
