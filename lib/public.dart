@@ -24,6 +24,10 @@ void register(Router app, DbCollection users, DbCollection usersSessions) {
     var password = data['password'];
     var role = data['role'];
 
+    if (username == null || password == null || role == null) {
+      return Response.badRequest();
+    }
+
     var rand = Random();
     var saltBytes = List<int>.generate(32, (_) => rand.nextInt(256));
     var salt = base64.encode(saltBytes);
@@ -69,6 +73,10 @@ void login(Router app, DbCollection users, DbCollection usersSessions) {
     var username = data['username'];
     var password = data['password'];
     var role = data['role'];
+
+    if (username == null || password == null || role == null) {
+      return Response.badRequest();
+    }
 
     var user = await users.findOne(
       where.eq('username', username).eq('role', role),
