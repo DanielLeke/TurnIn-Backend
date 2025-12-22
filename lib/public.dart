@@ -70,7 +70,7 @@ void login(Router app, DbCollection users, DbCollection usersSessions) {
     var password = data['password'];
     var role = data['role'];
 
-    var user = await users.findOne(where.eq('username', username));
+    var user = await users.findOne(where.eq('username', username).eq('role', role));
     if (user == null) {
       return Response.notFound(
         'User not found',
