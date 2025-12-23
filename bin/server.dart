@@ -30,6 +30,7 @@ void main(List<String> args) async {
   submit(_router, usersSessions, submissions);
   getUserSubmission(_router, usersSessions, submissions);
   getAnySubmissions(_router, usersSessions, submissions);
+  updateStatus(_router, usersSessions, submissions);
 
   // Use any available host or container IP (usually `0.0.0.0`).
   final ip = InternetAddress.anyIPv4;
