@@ -37,6 +37,15 @@ void getAllSubmissions(
         'Unauthorized user',
         headers: {'content-type': 'application/json'},
       );
+    } else {
+      if (role != "Reviewer") {
+        return Response.forbidden('Unauthorized for this request');
+      }
+      var allSubmissions = await submissions.find().toList();
+      return Response.ok(
+        jsonEncode(allSubmissions),
+        headers: {'content-type': 'application/json'},
+      );
     }
   });
 }
