@@ -4,12 +4,12 @@ import 'package:mongo_dart/mongo_dart.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
-void getAllSubmissions(
+void getAnySubmissions(
   Router app,
   DbCollection usersSessions,
   DbCollection submissions,
 ) {
-  app.get('/submissions/all', (Request request) async {
+  app.get('/submissions/<id>', (Request request, String id) async {
     final data = jsonDecode(await request.readAsString());
     final session = data['session'];
 
@@ -43,9 +43,11 @@ void getAllSubmissions(
           jsonEncode({'message': 'Unauthorized for this request'}),
         );
       }
-      var allSubmissions = await submissions.find().toList();
+      var theSubmissions = id == "all"
+          ? await submissions.find().toList()
+          : await submissions.findOne(where.eq('_id', id));
       return Response.ok(
-        jsonEncode(allSubmissions),
+        jsonEncode(theSubmissions),
         headers: {'content-type': 'application/json'},
       );
     }
