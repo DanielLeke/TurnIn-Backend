@@ -97,7 +97,7 @@ void updateStatus(
       }
 
       await submissions.updateOne(where.eq('_id', ObjectId.fromHexString(id)), {
-        r'$set: {status: Reviewed}',
+        r'{$set: {status: Reviewed}}',
       });
       return Response.ok(
         jsonEncode({'success': 'status updated'}),
