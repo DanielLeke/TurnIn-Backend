@@ -45,7 +45,7 @@ void getAnySubmissions(
       }
       var theSubmissions = id == "all"
           ? await submissions.find().toList()
-          : await submissions.findOne(where.eq('_id', id));
+          : await submissions.findOne(where.eq('_id', ObjectId.fromHexString(id)));
       return Response.ok(
         jsonEncode(theSubmissions),
         headers: {'content-type': 'application/json'},
