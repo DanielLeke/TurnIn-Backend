@@ -61,7 +61,7 @@ void register(Router app, DbCollection users, DbCollection usersSessions) {
     });
 
     return Response.ok(
-      "{'session': $encodedSession}",
+      jsonEncode("{'session': $encodedSession}"),
       headers: {'content-type': 'application/json'},
     );
   });
@@ -110,7 +110,7 @@ void login(Router app, DbCollection users, DbCollection usersSessions) {
       });
 
       return Response.ok(
-        "{'session': $encodedSession}",
+        jsonEncode("{'session': $encodedSession}"),
         headers: {'content-type': 'application/json'},
       );
     }
