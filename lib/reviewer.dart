@@ -15,7 +15,7 @@ void getAllSubmissions(
 
     if (session == null) {
       return Response.forbidden(
-        'No session provided',
+        jsonEncode({'message': 'No session provided'}),
         headers: {'content-type': 'application/json'},
       );
     }
@@ -34,12 +34,14 @@ void getAllSubmissions(
 
     if (userSession == null) {
       return Response.forbidden(
-        'Unauthorized user',
+        jsonEncode({'message': 'Unauthorized user'}),
         headers: {'content-type': 'application/json'},
       );
     } else {
       if (role != "Reviewer") {
-        return Response.forbidden('Unauthorized for this request');
+        return Response.forbidden(
+          jsonEncode({'message': 'Unauthorized for this request'}),
+        );
       }
       var allSubmissions = await submissions.find().toList();
       return Response.ok(

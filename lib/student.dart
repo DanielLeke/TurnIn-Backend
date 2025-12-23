@@ -12,7 +12,7 @@ void submit(Router app, DbCollection usersSessions, DbCollection submissions) {
 
     if (session == null) {
       return Response.forbidden(
-        'No session provided',
+        jsonEncode({'message': 'No session provided'}),
         headers: {'content-type': 'application/json'},
       );
     }
@@ -31,7 +31,7 @@ void submit(Router app, DbCollection usersSessions, DbCollection submissions) {
 
     if (userSession == null) {
       return Response.forbidden(
-        'Unauthorized user',
+        jsonEncode({'message': 'Unauthorized user'}),
         headers: {'content-type': 'application/json'},
       );
     } else {
@@ -39,18 +39,18 @@ void submit(Router app, DbCollection usersSessions, DbCollection submissions) {
         'username': username,
         'role': role,
         'submission': submission,
-        'status': 'Unreviewed'
+        'status': 'Unreviewed',
       };
 
       await submissions.insertOne({
         'username': userSubmission['username'],
         'role': userSubmission['role'],
         'submission': userSubmission['submission'],
-        'status': userSubmission['status']
+        'status': userSubmission['status'],
       });
 
       return Response.ok(
-        jsonEncode('Submission saved'),
+        jsonEncode({'success':'Submission saved'}),
         headers: {'content-type': 'application/json'},
       );
     }
@@ -68,7 +68,7 @@ void getUserSubmission(
 
     if (session == null) {
       return Response.forbidden(
-        'No session provided',
+        jsonEncode({'message': 'No session provided'}),
         headers: {'content-type': 'application/json'},
       );
     }
@@ -87,13 +87,13 @@ void getUserSubmission(
 
     if (userSession == null) {
       return Response.forbidden(
-        'Unauthorized user',
+        jsonEncode({'message': 'Unauthorized user'}),
         headers: {'content-type': 'application/json'},
       );
     } else {
-      var userSubmissions = await submissions.find(
-        where.eq('username', username).eq('role', role),
-      ).toList();
+      var userSubmissions = await submissions
+          .find(where.eq('username', username).eq('role', role))
+          .toList();
       return Response.ok(
         jsonEncode(userSubmissions),
         headers: {'content-type': 'application/json'},
