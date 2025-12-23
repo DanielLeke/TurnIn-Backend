@@ -45,11 +45,23 @@ void getAnySubmissions(
       }
       var theSubmissions = id == "all"
           ? await submissions.find().toList()
-          : await submissions.findOne(where.eq('_id', ObjectId.fromHexString(id)));
+          : await submissions.findOne(
+              where.eq('_id', ObjectId.fromHexString(id)),
+            );
       return Response.ok(
         jsonEncode(theSubmissions),
         headers: {'content-type': 'application/json'},
       );
     }
+  });
+}
+
+void updateStatus(
+  Router app,
+  DbCollection usersSessions,
+  DbCollection submissions,
+) {
+  app.patch('/submissions/<id>', (Request request, String id) async {
+
   });
 }
