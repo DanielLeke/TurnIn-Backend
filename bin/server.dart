@@ -5,6 +5,7 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
 import 'package:shelf_router/shelf_router.dart';
 import 'package:turnin_backend/public.dart';
+import 'package:turnin_backend/reviewer.dart';
 import 'package:turnin_backend/student.dart';
 
 // Configure routes.
@@ -28,6 +29,7 @@ void main(List<String> args) async {
   login(_router, users, usersSessions);
   submit(_router, usersSessions, submissions);
   getUserSubmission(_router, usersSessions, submissions);
+  getAllSubmissions(_router, usersSessions, submissions);
 
   // Use any available host or container IP (usually `0.0.0.0`).
   final ip = InternetAddress.anyIPv4;
