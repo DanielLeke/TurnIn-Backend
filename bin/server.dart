@@ -15,7 +15,7 @@ void main(List<String> args) async {
   var env = DotEnv(includePlatformEnvironment: true)
     ..load(['C:\\Users\\USER\\turnin_backend\\.env']);
 
-  var dbString = env['TurnInDB'];
+  var dbString = Platform.environment['TurnInDB'] ?? env['TurnInDB'];
   Db db = Db(dbString as String);
 
   await db.open();
