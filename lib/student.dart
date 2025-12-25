@@ -63,7 +63,8 @@ void getUserSubmission(
   DbCollection submissions,
 ) {
   app.get('/submissions', (Request request) async {
-    final data = json.decode(await request.readAsString());
+    dynamic jsonData = await request.readAsString();
+    final data = json.decode(jsonData);
     final session = data['session'];
 
     if (session == null) {
