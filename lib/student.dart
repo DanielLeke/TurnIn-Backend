@@ -39,7 +39,7 @@ void submit(Router app, DbCollection usersSessions, DbCollection submissions) {
         'username': username,
         'role': role,
         'submission': submission,
-        'status': 'Unreviewed',
+        'status': 'Pending Review',
       };
 
       await submissions.insertOne({

@@ -64,6 +64,7 @@ void updateStatus(
   app.patch('/submissions/<id>', (Request request, String id) async {
     final data = json.decode(await request.readAsString());
     final session = data['session'];
+    final status = data['status'];
 
     if (session == null) {
       return Response.forbidden(
@@ -97,7 +98,7 @@ void updateStatus(
       }
 
       await submissions.updateOne(where.eq('_id', ObjectId.fromHexString(id)), {
-        r'$set': {'status': 'Reviewed'},
+        r'$set': {'status': '$status'},
       });
       return Response.ok(
         json.encode({'success': 'status updated'}),
