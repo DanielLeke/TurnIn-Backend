@@ -19,7 +19,7 @@ String _hashPassword(String password, String salt) {
 
 void register(Router app, DbCollection users, DbCollection usersSessions) {
   app.post('/register', (Request request) async {
-    final data = jsonDecode(await request.readAsString());
+    final data = json.decode(await request.readAsString());
     var username = data['username'];
     var password = data['password'];
     var role = data['role'];
@@ -61,7 +61,7 @@ void register(Router app, DbCollection users, DbCollection usersSessions) {
     });
 
     return Response.ok(
-      jsonEncode({'session': encodedSession}),
+      json.encode({'session': encodedSession}),
       headers: {'content-type': 'application/json'},
     );
   });
@@ -69,7 +69,7 @@ void register(Router app, DbCollection users, DbCollection usersSessions) {
 
 void login(Router app, DbCollection users, DbCollection usersSessions) {
   app.post('/login', (Request request) async {
-    final data = jsonDecode(await request.readAsString());
+    final data = json.decode(await request.readAsString());
     var username = data['username'];
     var password = data['password'];
     var role = data['role'];
@@ -110,7 +110,7 @@ void login(Router app, DbCollection users, DbCollection usersSessions) {
       });
 
       return Response.ok(
-        jsonEncode({'session': encodedSession}),
+        json.encode({'session': encodedSession}),
         headers: {'content-type': 'application/json'},
       );
     }

@@ -6,13 +6,13 @@ import 'package:shelf_router/shelf_router.dart';
 
 void submit(Router app, DbCollection usersSessions, DbCollection submissions) {
   app.post('/submit', (Request request) async {
-    final data = jsonDecode(await request.readAsString());
+    final data = json.decode(await request.readAsString());
     final session = data['session'];
     final submission = data['submission'];
 
     if (session == null) {
       return Response.forbidden(
-        jsonEncode({'message': 'No session provided'}),
+        json.encode({'message': 'No session provided'}),
         headers: {'content-type': 'application/json'},
       );
     }
@@ -31,7 +31,7 @@ void submit(Router app, DbCollection usersSessions, DbCollection submissions) {
 
     if (userSession == null) {
       return Response.forbidden(
-        jsonEncode({'message': 'Unauthorized user'}),
+        json.encode({'message': 'Unauthorized user'}),
         headers: {'content-type': 'application/json'},
       );
     } else {
@@ -50,7 +50,7 @@ void submit(Router app, DbCollection usersSessions, DbCollection submissions) {
       });
 
       return Response.ok(
-        jsonEncode({'success':'Submission saved'}),
+        json.encode({'success': 'Submission saved'}),
         headers: {'content-type': 'application/json'},
       );
     }
@@ -63,12 +63,12 @@ void getUserSubmission(
   DbCollection submissions,
 ) {
   app.get('/submissions', (Request request) async {
-    final data = jsonDecode(await request.readAsString());
+    final data = json.decode(await request.readAsString());
     final session = data['session'];
 
     if (session == null) {
       return Response.forbidden(
-        jsonEncode({'message': 'No session provided'}),
+        json.encode({'message': 'No session provided'}),
         headers: {'content-type': 'application/json'},
       );
     }
@@ -87,7 +87,7 @@ void getUserSubmission(
 
     if (userSession == null) {
       return Response.forbidden(
-        jsonEncode({'message': 'Unauthorized user'}),
+        json.encode({'message': 'Unauthorized user'}),
         headers: {'content-type': 'application/json'},
       );
     } else {
@@ -95,7 +95,7 @@ void getUserSubmission(
           .find(where.eq('username', username).eq('role', role))
           .toList();
       return Response.ok(
-        jsonEncode(userSubmissions),
+        json.encode(userSubmissions),
         headers: {'content-type': 'application/json'},
       );
     }

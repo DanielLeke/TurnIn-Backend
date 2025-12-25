@@ -10,12 +10,12 @@ void getAnySubmissions(
   DbCollection submissions,
 ) {
   app.get('/submissions/<id>', (Request request, String id) async {
-    final data = jsonDecode(await request.readAsString());
+    final data = json.decode(await request.readAsString());
     final session = data['session'];
 
     if (session == null) {
       return Response.forbidden(
-        jsonEncode({'message': 'No session provided'}),
+        json.encode({'message': 'No session provided'}),
         headers: {'content-type': 'application/json'},
       );
     }
@@ -34,13 +34,13 @@ void getAnySubmissions(
 
     if (userSession == null) {
       return Response.forbidden(
-        jsonEncode({'message': 'Unauthorized user'}),
+        json.encode({'message': 'Unauthorized user'}),
         headers: {'content-type': 'application/json'},
       );
     } else {
       if (role != "Reviewer") {
         return Response.forbidden(
-          jsonEncode({'message': 'Unauthorized for this request'}),
+          json.encode({'message': 'Unauthorized for this request'}),
         );
       }
       var theSubmissions = id == "all"
@@ -49,7 +49,7 @@ void getAnySubmissions(
               where.eq('_id', ObjectId.fromHexString(id)),
             );
       return Response.ok(
-        jsonEncode(theSubmissions),
+        json.encode(theSubmissions),
         headers: {'content-type': 'application/json'},
       );
     }
@@ -62,12 +62,12 @@ void updateStatus(
   DbCollection submissions,
 ) {
   app.patch('/submissions/<id>', (Request request, String id) async {
-    final data = jsonDecode(await request.readAsString());
+    final data = json.decode(await request.readAsString());
     final session = data['session'];
 
     if (session == null) {
       return Response.forbidden(
-        jsonEncode({'message': 'No session provided'}),
+        json.encode({'message': 'No session provided'}),
         headers: {'content-type': 'application/json'},
       );
     }
@@ -86,22 +86,21 @@ void updateStatus(
 
     if (userSession == null) {
       return Response.forbidden(
-        jsonEncode({'message': 'Unauthorized user'}),
+        json.encode({'message': 'Unauthorized user'}),
         headers: {'content-type': 'application/json'},
       );
     } else {
       if (role != "Reviewer") {
         return Response.forbidden(
-          jsonEncode({'message': 'Unauthorized for this request'}),
+          json.encode({'message': 'Unauthorized for this request'}),
         );
       }
 
-      await submissions.updateOne(
-        where.eq('_id', ObjectId.fromHexString(id)),
-        {r'$set': {'status': 'Reviewed'}},
-      );
+      await submissions.updateOne(where.eq('_id', ObjectId.fromHexString(id)), {
+        r'$set': {'status': 'Reviewed'},
+      });
       return Response.ok(
-        jsonEncode({'success': 'status updated'}),
+        json.encode({'success': 'status updated'}),
         headers: {'content-type': 'application/json'},
       );
     }
