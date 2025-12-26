@@ -65,6 +65,7 @@ void updateStatus(
     final data = json.decode(await request.readAsString());
     final session = data['session'];
     final status = data['status'];
+    print(status);
 
     if (session == null) {
       return Response.forbidden(
