@@ -50,7 +50,7 @@ void submit(Router app, DbCollection usersSessions, DbCollection submissions) {
       });
 
       return Response.ok(
-        json.encode({'success': 'Submission saved'}),
+        json.encode({'message': 'Submission saved'}),
         headers: {'content-type': 'application/json'},
       );
     }
