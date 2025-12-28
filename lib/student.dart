@@ -8,6 +8,7 @@ void submit(Router app, DbCollection usersSessions, DbCollection submissions) {
   app.post('/submit', (Request request) async {
     final data = json.decode(await request.readAsString());
     final session = data['session'];
+    final title = data['title'];
     final submission = data['submission'];
 
     if (session == null) {
@@ -38,6 +39,7 @@ void submit(Router app, DbCollection usersSessions, DbCollection submissions) {
       var userSubmission = {
         'username': username,
         'role': role,
+        'title': title,
         'submission': submission,
         'status': 'Pending Review',
       };
@@ -45,6 +47,7 @@ void submit(Router app, DbCollection usersSessions, DbCollection submissions) {
       await submissions.insertOne({
         'username': userSubmission['username'],
         'role': userSubmission['role'],
+        'title': usersSubmission['title'],
         'submission': userSubmission['submission'],
         'status': userSubmission['status'],
       });
