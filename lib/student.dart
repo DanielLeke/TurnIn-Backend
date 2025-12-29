@@ -47,7 +47,7 @@ void submit(Router app, DbCollection usersSessions, DbCollection submissions) {
       await submissions.insertOne({
         'username': userSubmission['username'],
         'role': userSubmission['role'],
-        'title': usersSubmission['title'],
+        'title': userSubmission['title'],
         'submission': userSubmission['submission'],
         'status': userSubmission['status'],
       });
